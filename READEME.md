@@ -1,0 +1,1 @@
+The purpose for this repository is to provide a simpler way to interact with Linux. The idea is to gather information about the system, or later develop some serious automation, for Linux. This is nothing more than a tool to learn and see what can be done.
