@@ -1,21 +1,29 @@
 #!/bin/bash
 
-Root=~/Programs/Bash/bin
+Root=$(dirname $(realpath $0))
+
+Run()
+{
+	local Script="${1}"
+	shift
+	if [ -f ${Root}/${Script} ]; then
+		${Root}/${Script} ${@}
+	fi
+}
+
 
 Action="${1}"
 shift
 case ${Action} in
-	--battery)
-		if [ -f ${Root}/battery.sh ]; then
-			${Root}/battery.sh ${@}
-		fi
+	-b|--battery)
+		Run battery.sh ${@}
 		;;
-	--network)
-		if [ -f ${Root}/network.sh ]; then
-			${Root}/network.sh ${@}
-		fi
+	-n|--network)
+		Run network.sh ${@}
+		;;
+	-f|--filesystem)
+		Run filesystem.sh ${@}
 		;;
 	*)
-		echo "I work!"
 		;;
 esac
