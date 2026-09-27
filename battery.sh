@@ -1,5 +1,18 @@
 #!/bin/bash
 
+help()
+{
+	local Name="${0}"
+	Name=${Name##*/}
+	Name=${Name%%.*}
+	echo ${Name}
+	echo "--status"
+	echo "--power"
+	echo "--power-percent"
+	echo "--company"
+	echo "--type"
+}
+
 #Dirs
 powerDir="/sys/class/power_supply"
 batteryInfo="${powerDir}/BAT0"
@@ -21,6 +34,9 @@ if [ -d ${batteryInfo} ]; then
 			;;
 		-t|--type)
 			cat "${batteryInfo}/technology"
+			;;
+		--help)
+			help
 			;;
 		*)
 			;;
