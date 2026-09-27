@@ -15,6 +15,9 @@ case ${Action} in
 	-l|--list)
 		ls ${@}
 		;;
+	-i|--info)
+		ls -lh ${@}
+		;;
 	-s|--size)
 		stat -c "%s" ${@}
 		;;
@@ -32,6 +35,9 @@ case ${Action} in
 		;;
 	-y|--type)
 		stat -c "%F" ${@}
+		;;
+	--help)
+		help
 		;;
 	*)
 		;;
