@@ -5,8 +5,22 @@ help()
 	local Name="${0}"
 	Name=${Name##*/}
 	Name=${Name%%.*}
-	echo ${Name}
-	echo "--list"
+	echo "${Name} -l"
+	echo "${Name} --list"
+	echo "${Name} -i"
+	echo "${Name} --info"
+	echo "${Name} -s"
+	echo "${Name} --size"
+	echo "${Name} -u"
+	echo "${Name} --user"
+	echo "${Name} -g"
+	echo "${Name} --group"
+	echo "${Name} -p"
+	echo "${Name} --permission"
+	echo "${Name} -t"
+	echo "${Name} --perm-tag"
+	echo "${Name} -y"
+	echo "${Name} --type"
 }
 
 Action="${1}"

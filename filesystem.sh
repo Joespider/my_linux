@@ -5,10 +5,12 @@ help()
 	local Name="${0}"
 	Name=${Name##*/}
 	Name=${Name%%.*}
-	echo ${Name}
-	echo "--info"
-	echo "--root"
-	echo "--home"
+	echo "${Name} --config"
+	echo "${Name} --temp"
+	echo "${Name} -r"
+	echo "${Name} --root"
+	echo "${Name} -h"
+	echo "${Name} --home"
 }
 
 Action="${1}"
@@ -19,6 +21,9 @@ case ${Action} in
 #		;;
 	--config)
 		echo /etc/
+		;;
+	--temp)
+		echo /tmp/
 		;;
 	--logs)
 		echo /var/log/

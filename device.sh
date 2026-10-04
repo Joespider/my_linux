@@ -5,8 +5,11 @@ help()
 	local Name="${0}"
 	Name=${Name##*/}
 	Name=${Name%%.*}
-	echo ${Name}
-	echo "--list"
+	echo "${Name} --list"
+	echo "${Name} --tty"
+	echo "${Name} --list"
+	echo "${Name} --usb"
+	echo "${Name} --info"
 }
 
 Action="${1}"

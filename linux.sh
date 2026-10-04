@@ -13,4 +13,15 @@ Run()
 
 Action="${1}"
 shift
-Run ${Action} ${@}
+if [ ! -z "${1}" ]; then
+	case ${1} in
+		--help)
+			Run help ${@}
+			;;
+		*)
+			Run ${Action} ${@}
+			;;
+	esac
+else
+	Run help ${@}
+fi

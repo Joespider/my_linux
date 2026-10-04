@@ -5,8 +5,12 @@ help()
 	local Name="${0}"
 	Name=${Name##*/}
 	Name=${Name%%.*}
-	echo ${Name}
-	echo "--list"
+	echo "${Name} -x"
+	echo "${Name} --unzip"
+	echo "${Name} -z"
+	echo "${Name} --zip"
+	echo "${Name} -l"
+	echo "${Name} --list"
 }
 
 Action="${1}"
@@ -63,6 +67,9 @@ case ${Action} in
 			*)
 				;;
 		esac
+		;;
+	--help)
+		help
 		;;
 	*)
 		;;

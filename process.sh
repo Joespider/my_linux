@@ -5,7 +5,9 @@ help()
 	local Name="${0}"
 	Name=${Name##*/}
 	Name=${Name%%.*}
-	echo ${Name}
+	echo "${Name} --all"
+	echo "${Name} --root"
+	echo "${Name} --user"
 }
 
 Action="${1}"

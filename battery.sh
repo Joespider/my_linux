@@ -5,12 +5,17 @@ help()
 	local Name="${0}"
 	Name=${Name##*/}
 	Name=${Name%%.*}
-	echo ${Name}
-	echo "--status"
-	echo "--power"
-	echo "--power-percent"
-	echo "--company"
-	echo "--type"
+	echo "${Name} -s"
+	echo "${Name} --status"
+	echo "${Name} -p"
+	echo "${Name} --power"
+	echo "${Name} -pp"
+	echo "${Name} --power-percent"
+	echo "${Name} -c"
+	echo "${Name} --company"
+	echo "${Name} -t"
+	echo "${Name} --type"
+
 }
 
 #Dirs

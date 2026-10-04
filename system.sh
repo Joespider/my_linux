@@ -5,8 +5,12 @@ help()
 	local Name="${0}"
 	Name=${Name##*/}
 	Name=${Name%%.*}
-	echo ${Name}
-	echo "--info"
+	echo "${Name} --info"
+	echo "${Name} --kernel"
+	echo "${Name} --kernel-release"
+	echo "${Name} --kernel-version"
+	echo "${Name} --machine"
+	echo "${Name} --os"
 }
 
 Action="${1}"

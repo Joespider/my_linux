@@ -5,10 +5,11 @@ help()
 	local Name="${0}"
 	Name=${Name##*/}
 	Name=${Name%%.*}
-	echo ${Name}
-	echo "--traffic"
-	echo "--ip"
-	echo "--dep"
+	echo "${Name} --traffic"
+	echo "${Name} --ip"
+	echo "${Name} --ip-public"
+	echo "${Name} --ip-private"
+	echo "${Name} --dep"
 }
 
 Action="${1}"

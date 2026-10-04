@@ -5,8 +5,8 @@ help()
 	local Name="${0}"
 	Name=${Name##*/}
 	Name=${Name%%.*}
-	echo ${Name}
-	echo "--list"
+	echo "${Name} -l {user|group}"
+	echo "${Name} --list {user|group}"
 }
 
 Action="${1}"
@@ -37,6 +37,9 @@ case ${Action} in
 			*)
 				;;
 		esac
+		;;
+	--help)
+		help
 		;;
 	*)
 		;;
