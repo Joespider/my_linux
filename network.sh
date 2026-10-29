@@ -43,6 +43,22 @@ Network()
 		--dep)
 			which ip
 			;;
+		--scan)
+			local IsInstalled=$(which nmap 2> /dev/null)
+			if [ ! -z "${IsInstalled}" ]; then
+				local IP=$(Network --ip-cidr | grep $(Network --ip-private))
+				local cidrNum=${IP##*/}
+				IP="${IP%.*}"
+				local IsSudo=$(sudo whoami 2> /dev/null)
+				if [ ! -z "${IsSudo}" ]; then
+					echo "[SUDO]"
+					sudo nmap "${IP}.0/${cidrNum}"
+				else
+					echo "[${USER}]"
+					nmap "${IP}.0/${cidrNum}"
+				fi
+			fi
+			;;
 		*)
 			;;
 	esac
