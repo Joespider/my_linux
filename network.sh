@@ -11,6 +11,7 @@ help()
 	echo "${Name} --ip-private"
 	echo "${Name} --ip-cidr"
 	echo "${Name} --dep"
+	echo "${Name} --scan"
 }
 
 Network()
@@ -44,19 +45,24 @@ Network()
 			which ip
 			;;
 		--scan)
+			local IsSudo=$(sudo whoami 2> /dev/null)
 			local IsInstalled=$(which nmap 2> /dev/null)
 			if [ ! -z "${IsInstalled}" ]; then
-				local IP=$(Network --ip-cidr | grep $(Network --ip-private))
-				local cidrNum=${IP##*/}
-				IP="${IP%.*}"
-				local IsSudo=$(sudo whoami 2> /dev/null)
-				if [ ! -z "${IsSudo}" ]; then
-					echo "[SUDO]"
-					sudo nmap "${IP}.0/${cidrNum}"
-				else
-					echo "[${USER}]"
-					nmap "${IP}.0/${cidrNum}"
-				fi
+				local cidrNum
+				local IP
+				for cidr in $(Network --ip-cidr | grep -v 127.0.0.1);
+				do
+					cidrNum=${cidr##*/}
+					IP=${cidr%%/*}
+					IP="${IP%.*}"
+					if [ ! -z "${IsSudo}" ]; then
+						echo "[SUDO]"
+						sudo nmap "${IP}.0/${cidrNum}"
+					else
+						echo "[${USER}]"
+						nmap "${IP}.0/${cidrNum}"
+					fi
+				done
 			fi
 			;;
 		*)
