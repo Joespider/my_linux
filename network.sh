@@ -43,26 +43,122 @@ Network()
 	#		;;
 		--dep)
 			which ip
+			which nmap
 			;;
-		--scan)
-			local IsSudo=$(sudo whoami 2> /dev/null)
+		--scan-port)
+			local IP="${1}"
+			local Port="${2}"
 			local IsInstalled=$(which nmap 2> /dev/null)
 			if [ ! -z "${IsInstalled}" ]; then
-				local cidrNum
-				local IP
-				for cidr in $(Network --ip-cidr | grep -v 127.0.0.1);
-				do
-					cidrNum=${cidr##*/}
-					IP=${cidr%%/*}
-					IP="${IP%.*}"
+
+				case ${IP} in
+					*":"*)
+						Port="${IP##*:}"
+						IP="${IP%%:*}"
+						;;
+#					*"."*)
+#						IP=""
+#						if [ -z "${Port}" ]; then
+#							shift
+#						fi
+#						echo "${@}"
+#						;;
+					*)
+						;;
+				esac
+
+				if [ ! -z "${IP}" ] && [ ! -z "${Port}" ]; then
+					local IsSudo=$(sudo whoami 2> /dev/null)
 					if [ ! -z "${IsSudo}" ]; then
 						echo "[SUDO]"
-						sudo nmap "${IP}.0/${cidrNum}"
+						echo sudo nmap -p "${Port}" "${IP}"
 					else
 						echo "[${USER}]"
-						nmap "${IP}.0/${cidrNum}"
+						nmap -p "${Port}" "${IP}"
 					fi
-				done
+				else
+					local cidrNum
+					IP=""
+					Port="${1}"
+					case ${Port} in
+						*"."*)
+							;;
+						*)
+							for cidr in $(Network --ip-cidr | grep -v 127.0.0.1);
+							do
+								cidrNum=${cidr##*/}
+								IP=${cidr%%/*}
+								case ${IP} in
+									*".com"|*".net")
+										;;
+									*)
+										case ${cidrNum} in
+											8)
+												IP="${IP%%.*}.0.0.0"
+												;;
+											16)
+												IP="${IP%.*}"
+												IP="${IP%.*}.0.0"
+												;;
+											24)
+												IP="${IP%.*}.0"
+												;;
+											*)
+												;;
+										esac
+									;;
+							esac
+								if [ ! -z "${IP}" ] && [ ! -z "${Port}" ]; then
+									Network --scan-port "${IP}/${cidrNum}" "${Port}"
+								fi
+							done
+							;;
+					esac
+				fi
+			fi
+			;;
+		--scan)
+			local IP="${1}"
+			local IsInstalled=$(which nmap 2> /dev/null)
+			if [ ! -z "${IsInstalled}" ]; then
+				if [ ! -z "${IP}" ]; then
+					local IsSudo=$(sudo whoami 2> /dev/null)
+					if [ ! -z "${IsSudo}" ]; then
+						echo "[SUDO]"
+						sudo nmap -sL "${IP}"| grep ")$" | sed "s/Nmap scan report for //g"
+					else
+						echo "[${USER}]"
+						nmap -sL "${IP}"| grep ")$" | sed "s/Nmap scan report for //g"
+					fi
+				else
+					local cidrNum
+					for cidr in $(Network --ip-cidr | grep -v 127.0.0.1);
+					do
+						cidrNum=${cidr##*/}
+						IP=${cidr%%/*}
+						case ${IP} in
+							*".com"|*".net")
+								;;
+							*)
+								case ${cidrNum} in
+									8)
+										IP="${IP%%.*}.0.0.0"
+										;;
+									16)
+										IP="${IP%.*}"
+										IP="${IP%.*}.0.0"
+										;;
+									24)
+										IP="${IP%.*}.0"
+										;;
+									*)
+										;;
+								esac
+								;;
+						esac
+						Network	--scan "${IP}/${cidrNum}"
+					done
+				fi
 			fi
 			;;
 		*)
